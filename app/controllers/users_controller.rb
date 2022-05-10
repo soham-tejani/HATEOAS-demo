@@ -7,18 +7,16 @@ class UsersController < ApplicationController
   def index
     @users = User.all
 
-    serialized_users = UserSerializer.new(@users).serializable_hash
-    @pagy, @records = pagy(serialized_users)
+    @pagy, @records = pagy(@users)
+    serialized_users = UserSerializer.new(@records, pagy_meta_options(@pagy)).serializable_hash
 
-    render json: serialized_users
+    render_jsonapi(serialized_users)
   end
 
-  # GET /users/1
   def show
-    render json: @user
+    render_jsonapi(UserSerializer.new(@user).serializable_hash)
   end
 
-  # POST /users
   def create
     @user = User.new(user_params)
 
@@ -29,7 +27,6 @@ class UsersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
       render json: @user
@@ -38,20 +35,17 @@ class UsersController < ApplicationController
     end
   end
 
-  # DELETE /users/1
   def destroy
     @user.destroy
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :headline, :gender, :phone)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :headline, :gender, :phone)
   end
 end

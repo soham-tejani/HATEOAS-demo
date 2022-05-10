@@ -20,7 +20,7 @@ gem 'puma', '~> 5.0'
 gem 'devise'
 
 gem 'jsonapi-serializer'
-gem 'pagy'
+gem 'pagy', '~> 5.10'
 gem 'rubocop'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
