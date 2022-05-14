@@ -2,14 +2,14 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   include Pagy::Backend
+
+  TOKEN_PATTERN = /^Bearer (?<token>[^ ]+)/
 
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_error
   rescue_from ActionController::BadRequest, with: :render_bad_request_error
   rescue_from ActionController::RoutingError, with: :render_path_not_found_error
-
-  # protect_from_forgery with: :null_session
   respond_to :json
 
   def pagy_meta_options(pagy)
@@ -75,6 +75,42 @@ class ApplicationController < ActionController::API
   end
 
   private
+
+  def authenticate_user!
+    return true if current_user
+
+    render_unauthorized_error
+  end
+
+  def current_user_from_api_token
+    enc_token = encrypted_token
+    return if enc_token.blank?
+
+    User.includes(:api_tokens).find_by(api_tokens: { token: enc_token, expired_at: nil })
+  end
+
+  def encrypted_token
+    authorization_match = request.headers['Authorization'].to_s.match(TOKEN_PATTERN)
+    Digest::SHA256.hexdigest(authorization_match[:token]) if authorization_match.present?
+  end
+
+  def current_user
+    return @current_user if defined?(@current_user)
+
+    @current_user = current_user_from_api_token
+  end
+
+  def render_unauthorized_error
+    render_jsonapi_error({
+                           title: 'Unauthorized access',
+                           status: 401,
+                           code: 401,
+                           detail: 'You need to login to authorize this request',
+                           source: {
+                             pointer: '/request/headers/authorization'
+                           }
+                         })
+  end
 
   def render_jsonapi_error(error_or_errors, status: nil, **options)
     errors = Array.wrap(error_or_errors)

@@ -1,13 +1,44 @@
 Metrics/CyclomaticComplexity:
   Max: 15
 
-Metrics/MethodLength:
-  Max: 48
 Lint/MissingSuper:
   Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 30
+
+Metrics/BlockLength:
+  Max: 120
+  AllCops:
+  Exclude:
+    - 'bin/bundle'
 
 Metrics/AbcSize:
   Max: 60
 
-Metrics/BlockLength:
-  Max: 137
+Layout/LineLength:
+  Max: 120
+  Exclude:
+  - 'bin/bundle'
+
+Naming/VariableNumber:
+  Enabled: false
+
+Metrics/BlockNesting:
+  Max: 4
+
+Metrics/ParameterLists:
+  Max: 5
+
+Metrics/PerceivedComplexity:
+  Max: 17
+
+Style/EmptyMethod:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 120
+  
