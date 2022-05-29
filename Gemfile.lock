@@ -295,7 +295,11 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.2)
+  rspec-core
+  rspec-expectations
+  rspec-mocks
   rspec-rails
+  rspec-support
   rswag-api
   rswag-specs
   rswag-ui

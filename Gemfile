@@ -27,6 +27,13 @@ gem 'rubocop'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'grape-entity'
+gem 'grape-swagger'
+gem 'grape-swagger-entity'
+gem 'grape-swagger-representable'
+gem 'json-schema' # Allows to validate params with swagger schema
+gem 'rswag-api'
+gem 'rswag-ui'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
@@ -34,6 +41,12 @@ gem 'bootsnap', '>= 1.4.4', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'rspec-core'
+  gem 'rspec-expectations'
+  gem 'rspec-mocks'
+  gem 'rspec-rails'
+  gem 'rspec-support'
+  gem 'rswag-specs'
 end
 
 group :development do

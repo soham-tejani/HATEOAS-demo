@@ -16,7 +16,7 @@ module ApiTokens
       return false unless valid?
 
       token = SecureRandom.base64(24)
-      @api_token = ApiToken.new(token: Digest::SHA256.hexdigest(token), user: user)
+      @api_token = ApiToken.new(token: Digest::SHA256.hexdigest(token), user:)
 
       return false unless @api_token.save
 
