@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+if ! type widdershins > /dev/null
+then
+  echo "Please install widdershins with 'npm install -g widdershins'"
+  exit 1
+fi
+git clone git@github.com-soham_0912:SameTejani/slatedocs.git
+
+widdershins --search false --language_tabs 'ruby:Ruby' 'python:Python' 'javascript:Javascript' --summary ./swagger/v1/swagger.yaml -o ./slatedocs/source/index.html.md
+
+cd slatedocs
+bundle install
+bundle exec middleman build --clean
+mv build/index.html build/docs.html
+cp -r build/* ../public
+cd -
+
+yes | rm -r slatedocs

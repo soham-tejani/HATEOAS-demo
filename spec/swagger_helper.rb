@@ -19,17 +19,13 @@ RSpec.configure do |config|
       openapi: '3.0.1',
       info: {
         title: 'API V1',
-        version: 'v1'
+        version: 'v1',
+        description: 'This is the API only rails app, and this is the doc for our APIs'
       },
       paths: {},
       servers: [
         {
-          url: 'https://{defaultHost}',
-          variables: {
-            defaultHost: {
-              default: 'www.example.com'
-            }
-          }
+          url: 'https://hateoas-demo.herokuapp.com/api/v1'
         }
       ]
     }
