@@ -18,7 +18,7 @@ RSpec.configure do |config|
     'v1/swagger.yaml' => {
       openapi: '3.0.1',
       info: {
-        title: 'API V1',
+        title: 'API Docs',
         version: 'v1',
         description: 'This is the API only rails app, and this is the doc for our APIs'
       },
@@ -27,7 +27,17 @@ RSpec.configure do |config|
         {
           url: 'https://hateoas-demo.herokuapp.com/api/v1'
         }
-      ]
+      ],
+      components: {
+        securitySchemes: {
+          Bearer: {
+            description: 'Bearer Authentication',
+            type: :apiKey,
+            name: 'Authorization',
+            in: :header
+          }
+        }
+      }
     }
   }
 

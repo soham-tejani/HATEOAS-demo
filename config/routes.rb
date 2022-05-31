@@ -3,11 +3,12 @@
 Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api/docs'
   mount Rswag::Api::Engine => '/api/docs'
-  get '/docs' => redirect('docs.html')
+  root to: redirect('/docs.html')
   devise_for :users
 
   namespace :api do
     namespace :v1 do
+      resources :health, only: %i[index]
       resources :users
     end
   end
