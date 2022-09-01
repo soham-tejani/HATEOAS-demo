@@ -12,16 +12,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_220_514_070_052) do
+ActiveRecord::Schema[7.0].define(version: 20_220_514_070_052) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
   create_table 'api_tokens', force: :cascade do |t|
     t.bigint 'user_id', null: false
     t.string 'token'
-    t.datetime 'expired_at'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+    t.datetime 'expired_at', precision: nil
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
     t.index ['user_id'], name: 'index_api_tokens_on_user_id'
   end
 
@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 20_220_514_070_052) do
     t.boolean 'gender'
     t.integer 'phone'
     t.string 'password'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
     t.string 'email', default: '', null: false
     t.string 'encrypted_password', default: '', null: false
     t.string 'reset_password_token'

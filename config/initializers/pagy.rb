@@ -15,7 +15,7 @@ require 'pagy/extras/metadata'
 # Instance variables
 # See https://ddnexus.github.io/pagy/api/pagy#instance-variables
 # Pagy::DEFAULT[:page] = 3                                 # default
-Pagy::DEFAULT[:items] = 5 # default
+Pagy::DEFAULT[:items] = 10 # default
 Pagy::DEFAULT[:size] = [1, 4, 4, 1] # default
 # Pagy::DEFAULT[:link_extra] = 'data-remote="true"'            # example
 # Pagy::DEFAULT[:i18n_key]   = 'pagy.item_name'                # default

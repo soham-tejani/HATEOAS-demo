@@ -15,6 +15,34 @@ paths:
       responses:
         '200':
           description: successful
+  "/v1/users":
+    get:
+      summary: Returns the list of registrations for user's event
+      tags:
+      - Users
+      security:
+      - Bearer: []
+      - OAuth: []
+      responses:
+        '200':
+          description: returns registrations list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/user"
+                  meta:
+                    "$ref": "#/components/schemas/listMeta"
+                  links:
+                    "$ref": "#/components/schemas/listLinks"
+                required:
+                - data
+                - meta
+                - links
   "/api/v1/users":
     get:
       summary: list users
@@ -65,3 +93,66 @@ components:
       type: apiKey
       name: Authorization
       in: header
+  schemas:
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum:
+          - user
+        attributes:
+          type: object
+          properties:
+            email:
+              type: string
+            first_name:
+              type: string
+            last_name:
+              type: string
+          additionalProperties: false
+          required:
+          - email
+          - first_name
+          - last_name
+      additionalProperties: false
+      required:
+      - id
+      - type
+      - attributes
+    listMeta:
+      description: Additional details for a list
+      type: object
+      properties:
+        count:
+          description: Total count of list items
+          type: integer
+      required:
+      - count
+    listLinks:
+      type: object
+      description: Pagination links
+      properties:
+        first:
+          description: First page URL
+          type: string
+        self:
+          description: Current page URL
+          type: string
+        last:
+          description: Last page URL
+          type: string
+        prev:
+          description: Previous page URL
+          type: string
+          nullable: true
+        next:
+          description: Next page URL
+          type: string
+          nullable: true
+      required:
+      - first
+      - self
+      - last
