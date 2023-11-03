@@ -8,6 +8,7 @@ module Api
       def index
         @users = User.all
 
+        
         @pagy, @records = pagy(@users)
         serialized_users = UserSerializer.new(@records, pagy_meta_options(@pagy)).serializable_hash
 
