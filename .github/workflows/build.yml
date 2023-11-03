@@ -1,0 +1,50 @@
+name: Build
+on: [pull_request, merge_group]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: app
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      browserless:
+        image: browserless/chrome
+        ports: ["3000:3000"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Packages
+        run: sudo apt-get update
+      - name: Read ruby version
+        id: ruby-version
+        run: |
+          content=`cat ./.ruby-version`
+          echo "::set-output name=content::$content"
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ steps.ruby-version.outputs.content }}
+          bundler-cache: true
+        env:
+          BUNDLE_RUBYGEMS__PKG__GITHUB__COM: ${{ secrets.BUNDLE_RUBYGEMS__PKG__GITHUB__COM }}
+      - name: Setup test database
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost/app
+        run: bundle exec sequel -m db/migrate $DATABASE_URL
+      - name: Run tests
+        run: bundle exec rspec
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost/app
+          BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_ANALYTICS_TOKEN }}
