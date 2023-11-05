@@ -42,7 +42,7 @@ jobs:
       - name: Setup test database
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost/app
-        run: bundle exec sequel -m db/migrate $DATABASE_URL
+        run: bundle exec rails db:migrate
       - name: Run tests
         run: bundle exec rspec
         env:
